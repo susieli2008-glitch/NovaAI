@@ -33,7 +33,7 @@ export default function App() {
 
     try {
       // Replace with your actual Formspree ID if you have one, or test endpoint
-      const response = await fetch("https://formspree.io/f/xanyzbvw", {
+      const response = await fetch("https://formspree.io/f/mwlvnjzq", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
