@@ -260,11 +260,7 @@ Would you like me to reserve one of these and send the calendar invite?"`
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="px-6 py-16 max-w-3xl mx-auto border-t border-slate-900 text-center">
-        <h2 className="text-2xl md:text-3xl font-bold mb-4">Transform Your Operations with AI</h2>
-        <p className="text-slate-400 mb-8">Schedule a 30-minute consultation with our AI Solutions Architect.</p>
-        
-       {/* Contact Section */}
+ {/* Contact Section */}
 export function ContactSection() {
   const [status, setStatus] = useState(''); // 'submitting', 'success', 'error'
   const [formData, setFormData] = useState({
@@ -282,7 +278,7 @@ export function ContactSection() {
     setStatus('submitting');
 
     try {
-      const response = await fetch("https://formspree.io/f/mwlvnjzq", {
+      const response = await fetch("https://formspree.io/f/YOUR_FORMSPREE_ID", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -371,7 +367,8 @@ export function ContactSection() {
     </section>
   );
 }
-      </section>
+        
+       
 
       {/* Footer */}
       <footer className="px-6 py-8 border-t border-slate-900 text-center text-xs text-slate-500">
