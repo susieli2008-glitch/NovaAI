@@ -15,6 +15,44 @@ export default function App() {
   const [teamSize, setTeamSize] = useState(15);
   const [hourlyRate, setHourlyRate] = useState(65);
 
+  // Formspree state
+  const [formStatus, setFormStatus] = useState('');
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+
+  const handleInputChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    setFormStatus('submitting');
+
+    try {
+      // Replace with your actual Formspree ID if you have one, or test endpoint
+      const response = await fetch("https://formspree.io/f/xanyzbvw", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (response.ok) {
+        setFormStatus('success');
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        setFormStatus('error');
+      }
+    } catch (err) {
+      setFormStatus('error');
+    }
+  };
+
   const playgroundDemos = {
     sql: {
       title: "NL2SQL Enterprise Data Agent",
@@ -260,115 +298,72 @@ Would you like me to reserve one of these and send the calendar invite?"`
       </section>
 
       {/* Contact Section */}
- {/* Contact Section */}
-export function ContactSection() {
-  const [status, setStatus] = useState(''); // 'submitting', 'success', 'error'
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
-  });
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setStatus('submitting');
-
-    try {
-      const response = await fetch("https://formspree.io/f/YOUR_FORMSPREE_ID", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json"
-        },
-        body: JSON.stringify(formData)
-      });
-
-      if (response.ok) {
-        setStatus('success');
-        setFormData({ name: '', email: '', message: '' });
-      } else {
-        setStatus('error');
-      }
-    } catch (err) {
-      setStatus('error');
-    }
-  };
-
-  return (
-    <section id="contact" className="px-6 py-16 max-w-3xl mx-auto border-t border-slate-900 text-center">
-      <h2 className="text-2xl md:text-3xl font-bold mb-4">Transform Your Operations with AI</h2>
-      <p className="text-slate-400 mb-8">Schedule a 30-minute consultation with our AI Solutions Architect.</p>
-      
-      {status === 'success' ? (
-        <div className="p-6 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-xl">
-          <h3 className="font-bold text-lg mb-1">Thank You!</h3>
-          <p className="text-sm">Your request has been received. Our team will get back to you shortly.</p>
-        </div>
-      ) : (
-        <form onSubmit={handleSubmit} className="grid gap-4 max-w-md mx-auto text-left">
-          <div>
-            <label className="block text-xs font-semibold text-slate-400 mb-1">Name</label>
-            <input 
-              type="text" 
-              name="name" 
-              value={formData.name}
-              onChange={handleChange}
-              required 
-              placeholder="Your Name" 
-              className="w-full px-4 py-3 bg-slate-900 border border-slate-800 rounded-lg text-sm focus:outline-none focus:border-cyan-400 text-slate-100"
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs font-semibold text-slate-400 mb-1">Work Email</label>
-            <input 
-              type="email" 
-              name="email" 
-              value={formData.email}
-              onChange={handleChange}
-              required 
-              placeholder="name@company.com" 
-              className="w-full px-4 py-3 bg-slate-900 border border-slate-800 rounded-lg text-sm focus:outline-none focus:border-cyan-400 text-slate-100"
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs font-semibold text-slate-400 mb-1">Requirements</label>
-            <textarea 
-              name="message" 
-              rows="4" 
-              value={formData.message}
-              onChange={handleChange}
-              required 
-              placeholder="Describe your enterprise requirements..." 
-              className="w-full px-4 py-3 bg-slate-900 border border-slate-800 rounded-lg text-sm focus:outline-none focus:border-cyan-400 text-slate-100"
-            ></textarea>
-          </div>
-
-          <button 
-            type="submit" 
-            disabled={status === 'submitting'}
-            className="py-3 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold rounded-lg transition shadow-lg shadow-cyan-500/20 mt-2 disabled:opacity-50"
-          >
-            {status === 'submitting' ? 'Sending...' : 'Request Strategy Call'}
-          </button>
-
-          {status === 'error' && (
-            <p className="text-rose-400 text-xs text-center mt-2">
-              An error occurred while sending your request. Please try again.
-            </p>
-          )}
-        </form>
-      )}
-    </section>
-  );
-}
+      <section id="contact" className="px-6 py-16 max-w-3xl mx-auto border-t border-slate-900 text-center">
+        <h2 className="text-2xl md:text-3xl font-bold mb-4">Transform Your Operations with AI</h2>
+        <p className="text-slate-400 mb-8">Schedule a 30-minute consultation with our AI Solutions Architect.</p>
         
-       
+        {formStatus === 'success' ? (
+          <div className="p-6 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-xl max-w-md mx-auto">
+            <h3 className="font-bold text-lg mb-1">Thank You!</h3>
+            <p className="text-sm">Your request has been received. Our team will get back to you shortly.</p>
+          </div>
+        ) : (
+          <form onSubmit={handleFormSubmit} className="grid gap-4 max-w-md mx-auto text-left">
+            <div>
+              <label className="block text-xs font-semibold text-slate-400 mb-1">Name</label>
+              <input 
+                type="text" 
+                name="name" 
+                value={formData.name}
+                onChange={handleInputChange}
+                required 
+                placeholder="Your Name" 
+                className="w-full px-4 py-3 bg-slate-900 border border-slate-800 rounded-lg text-sm focus:outline-none focus:border-cyan-400 text-slate-100"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-slate-400 mb-1">Work Email</label>
+              <input 
+                type="email" 
+                name="email" 
+                value={formData.email}
+                onChange={handleInputChange}
+                required 
+                placeholder="name@company.com" 
+                className="w-full px-4 py-3 bg-slate-900 border border-slate-800 rounded-lg text-sm focus:outline-none focus:border-cyan-400 text-slate-100"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-slate-400 mb-1">Requirements</label>
+              <textarea 
+                name="message" 
+                rows="4" 
+                value={formData.message}
+                onChange={handleInputChange}
+                required 
+                placeholder="Describe your enterprise requirements..." 
+                className="w-full px-4 py-3 bg-slate-900 border border-slate-800 rounded-lg text-sm focus:outline-none focus:border-cyan-400 text-slate-100"
+              ></textarea>
+            </div>
+
+            <button 
+              type="submit" 
+              disabled={formStatus === 'submitting'}
+              className="py-3 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold rounded-lg transition shadow-lg shadow-cyan-500/20 mt-2 disabled:opacity-50 cursor-pointer"
+            >
+              {formStatus === 'submitting' ? 'Sending...' : 'Request Strategy Call'}
+            </button>
+
+            {formStatus === 'error' && (
+              <p className="text-rose-400 text-xs text-center mt-2">
+                An error occurred while sending your request. Please try again.
+              </p>
+            )}
+          </form>
+        )}
+      </section>
 
       {/* Footer */}
       <footer className="px-6 py-8 border-t border-slate-900 text-center text-xs text-slate-500">
