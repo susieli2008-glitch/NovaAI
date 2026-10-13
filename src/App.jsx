@@ -264,7 +264,10 @@ Would you like me to reserve one of these and send the calendar invite?"`
         <h2 className="text-2xl md:text-3xl font-bold mb-4">Transform Your Operations with AI</h2>
         <p className="text-slate-400 mb-8">Schedule a 30-minute consultation with our AI Solutions Architect.</p>
         
-        <form onSubmit={(e) => e.preventDefault()} className="grid gap-4 max-w-md mx-auto">
+       <form 
+    action="https://formspree.io/f/mwlvnjzq" 
+    method="POST" 
+    className="grid gap-4 max-w-md mx-auto text-left">
           <input 
             type="text" 
             placeholder="Your Name" 
